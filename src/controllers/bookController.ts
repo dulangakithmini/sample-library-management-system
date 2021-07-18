@@ -9,7 +9,7 @@ export let getAllBooks = (req: Request, res: Response) => {
         } else {
             res.send(books);
         }
-    })
+    });
 }
 
 // get book by id
@@ -20,5 +20,16 @@ export let getBook = (req: Request, res: Response) => {
         } else {
             res.send(book);
         }
-    })
+    });
 }
+
+// delete book by id
+export let deleteBook = (req: Request, res: Response) => {
+    let book = Book.deleteOne({_id: req.params.id}, (err: any) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send("Successfully Deleted Book");
+        }
+    });
+};
