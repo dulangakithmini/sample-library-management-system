@@ -33,3 +33,19 @@ export let deleteBook = (req: Request, res: Response) => {
         }
     });
 };
+
+// update book
+export let updateBook = (req: Request, res: Response) => {
+    console.log(req.body);
+    let book = Book.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        (err: any, book: any) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send("Successfully updated book!");
+            }
+        }
+    );
+};
