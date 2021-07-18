@@ -49,3 +49,16 @@ export let updateBook = (req: Request, res: Response) => {
         }
     );
 };
+
+// add book
+export let addBook = (req: Request, res: Response) => {
+    let book = new Book(req.body);
+
+    book.save((err: any) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(book);
+        }
+    });
+};
