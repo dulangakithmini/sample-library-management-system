@@ -1,6 +1,6 @@
-import * as mongoose from "mongoose";
+import {model, Schema} from "mongoose";
 
-export interface IBook extends mongoose.Document {
+export interface IBook {
     title: string;
     author: string;
     category: string;
@@ -8,28 +8,13 @@ export interface IBook extends mongoose.Document {
     url: string;
 }
 
-export const BookSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    author: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    },
-    summary: {
-        type: String,
-        required: true
-    },
-    url: {
-        type: String,
-        required: true
-    }
+const BookSchema = new Schema<IBook>({
+    title: {type: String, required: true},
+    author: {type: String, required: true},
+    category: {type: String, required: true},
+    summary: {type: String, required: true},
+    url: {type: String, required: true},
 });
 
-const Book = mongoose.model<IBook>("Book", BookSchema);
-export default Book;
+const BookModel = model<IBook>("Book", BookSchema);
+export default BookModel;
