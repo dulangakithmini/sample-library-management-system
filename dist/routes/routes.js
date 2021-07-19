@@ -24,7 +24,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", {value: true});
 const bookController = __importStar(require("../controllers/bookController"));
-
 function default_1(app) {
     app.get("/books", bookController.getAllBooks);
     app.get("/book/:id", bookController.getBook);
@@ -32,5 +31,4 @@ function default_1(app) {
     app.put("/book/:id", bookController.updateBook);
     app.delete("/book/:id", bookController.deleteBook);
 }
-
 exports.default = default_1;

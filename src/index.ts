@@ -8,8 +8,8 @@ app.get('/', (req, res) => {
     res.send('Testing...!');
 })
 
-app.listen(3000, () => {
-    console.log('The application is listening on port 3000!');
+app.listen(3001, () => {
+    console.log('The application is listening on port 3001!');
 
     DbConnect.initialize().catch(console.error);
     routes(app);

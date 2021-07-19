@@ -5,7 +5,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             resolve(value);
         });
     }
-
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) {
             try {
@@ -33,7 +32,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", {value: true});
 exports.DbConnect = void 0;
 const mongoose_1 = require("mongoose");
-
 class DbConnect {
     static initialize() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -48,5 +46,4 @@ class DbConnect {
         });
     }
 }
-
 exports.DbConnect = DbConnect;

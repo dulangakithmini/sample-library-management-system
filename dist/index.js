@@ -10,8 +10,8 @@ const app = express_1.default();
 app.get('/', (req, res) => {
     res.send('Testing...!');
 });
-app.listen(3000, () => {
-    console.log('The application is listening on port 3000!');
+app.listen(3001, () => {
+    console.log('The application is listening on port 3001!');
     dbConnect_1.DbConnect.initialize().catch(console.error);
     routes_1.default(app);
 });
