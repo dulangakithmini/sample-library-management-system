@@ -39,9 +39,9 @@ class DbConnect {
             const uri = "mongodb+srv://dulanga:dulanga@nodecluster.pmtdr.mongodb.net/libraryDb?retryWrites=true&w=majority";
             try {
                 yield mongoose_1.connect(uri);
-                console.log('Connection successful ✅');
+                console.log('Connection successful');
             } catch (e) {
-                console.log('Connection error: ❌');
+                console.log('Connection error');
             }
         });
     }

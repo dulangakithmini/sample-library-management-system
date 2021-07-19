@@ -1,10 +1,10 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 import routes from "./routes/routes";
 import {DbConnect} from "./db/dbConnect";
 
 const app = express();
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
     res.send('Testing...!');
 })
 
