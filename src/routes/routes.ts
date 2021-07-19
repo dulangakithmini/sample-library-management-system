@@ -9,4 +9,5 @@ export default function (app: Express) {
     app.delete("/book/:id", bookController.deleteBook);
 
     app.get("/booksByTitle/:title", bookController.getBooksByTitle);
+    app.get("/booksByAuthor/:author", bookController.getBooksByAuthor);
 }

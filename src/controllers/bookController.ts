@@ -69,6 +69,12 @@ export let getBooksByTitle = async (req: Request, res: Response): Promise<void> 
     res.send(books);
 }
 
+// filter by author
+export let getBooksByAuthor = async (req: Request, res: Response): Promise<void> => {
+    let books = await BookModel.find({author: req.params.author});
+    res.send(books);
+}
+
 // add book
 // values are assigned to fields separately
 // export let addBook = (req: Request, res: Response) => {
