@@ -1,5 +1,6 @@
 import {Express} from "express";
 import * as bookController from "../controllers/bookController";
+import * as authorController from "../controllers/authorController";
 
 export default function (app: Express) {
     app.get("/books", bookController.getAllBooks);
@@ -10,4 +11,6 @@ export default function (app: Express) {
 
     app.get("/booksByTitle/:title", bookController.getBooksByTitle);
     app.get("/booksByAuthor/:author", bookController.getBooksByAuthor);
+
+    app.get("/authors", authorController.getAllAuthors);
 }
