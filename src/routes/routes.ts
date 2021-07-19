@@ -7,4 +7,6 @@ export default function (app: Express) {
     app.post("/book", bookController.addBook);
     app.put("/book/:id", bookController.updateBook);
     app.delete("/book/:id", bookController.deleteBook);
+
+    app.get("/booksByTitle/:title", bookController.getBooksByTitle);
 }

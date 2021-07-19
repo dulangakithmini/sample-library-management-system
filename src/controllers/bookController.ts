@@ -2,8 +2,8 @@ import {Request, Response} from "express";
 import BookModel from "../models/bookModel";
 
 // get all books
-export let getAllBooks = (req: Request, res: Response) => {
-    let books = BookModel.find((err, books) => {
+export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
+    let books = await BookModel.find((err, books) => {
         if (err) {
             res.send(err);
         } else {
@@ -13,8 +13,8 @@ export let getAllBooks = (req: Request, res: Response) => {
 }
 
 // get book by id
-export let getBook = (req: Request, res: Response) => {
-    let book = BookModel.findById(req.params.id, (err: any, book: any) => {
+export let getBook = async (req: Request, res: Response): Promise<void> => {
+    let book = await BookModel.findById(req.params.id, (err: any, book: any) => {
         if (err) {
             res.send(err);
         } else {
@@ -62,6 +62,12 @@ export let addBook = (req: Request, res: Response) => {
         }
     });
 };
+
+//filter by book title
+export let getBooksByTitle = async (req: Request, res: Response): Promise<void> => {
+    let books = await BookModel.find({title: req.params.title});
+    res.send(books);
+}
 
 // add book
 // values are assigned to fields separately
