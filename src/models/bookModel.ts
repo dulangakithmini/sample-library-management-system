@@ -14,6 +14,8 @@ const BookSchema = new Schema<IBook>({
     category: {type: String, required: true},
     summary: {type: String, required: true},
     url: {type: String, required: true},
+}, {
+    timestamps: true,
 });
 
 const BookModel = model<IBook>("Book", BookSchema);
