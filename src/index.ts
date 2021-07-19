@@ -3,6 +3,11 @@ import routes from "./routes/routes";
 import {DbConnect} from "./db/dbConnect";
 
 const app = express();
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Testing...!');

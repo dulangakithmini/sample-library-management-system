@@ -44,15 +44,37 @@ export let updateBook = (req: Request, res: Response) => {
             if (err) {
                 res.send(err);
             } else {
-                res.send(book);
+                res.send('Updated successfully');
             }
         }
     );
 };
 
 // add book
+export let addBook = (req: Request, res: Response) => {
+    let book = new BookModel(req.body);
+
+    book.save((err: any) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(book);
+        }
+    });
+};
+
+// add book
+// values are assigned to fields separately
 // export let addBook = (req: Request, res: Response) => {
-//     let book = new BookModel(req.body);
+//     console.log('request body', req.body);
+//     // console.log('request', req);
+//     const book = new BookModel({
+//         "title": req.body['title'],
+//         "author": req.body['author'],
+//         "category": req.body['category'],
+//         "summary": req.body['summary'],
+//         "url": req.body['url']
+//     });
 //
 //     book.save((err: any) => {
 //         if (err) {
@@ -62,29 +84,3 @@ export let updateBook = (req: Request, res: Response) => {
 //         }
 //     });
 // };
-
-// export let addBook = async (req: Request, res: Response) => {
-//     let book = new BookModel({
-//         title: "My new book",
-//         author: "My new author",
-//         category: "My new category",
-//         summary: "my new summary",
-//         url: "My new url"
-//     });
-//
-//     await book.save();
-// };
-
-export let addBook = async (req: Request, res: Response) => {
-    console.log('request body', req.body);
-    console.log('request', req);
-    let book = new BookModel({
-        title: "My new book 5",
-        author: "My new author",
-        category: "My new category",
-        summary: "my new summary",
-        url: "My new url"
-    });
-
-    await book.save();
-};
