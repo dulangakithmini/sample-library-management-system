@@ -44,21 +44,47 @@ export let updateBook = (req: Request, res: Response) => {
             if (err) {
                 res.send(err);
             } else {
-                res.send("Successfully updated book!");
+                res.send(book);
             }
         }
     );
 };
 
 // add book
-export let addBook = (req: Request, res: Response) => {
-    let book = new BookModel(req.body);
+// export let addBook = (req: Request, res: Response) => {
+//     let book = new BookModel(req.body);
+//
+//     book.save((err: any) => {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.send(book);
+//         }
+//     });
+// };
 
-    book.save((err: any) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(book);
-        }
+// export let addBook = async (req: Request, res: Response) => {
+//     let book = new BookModel({
+//         title: "My new book",
+//         author: "My new author",
+//         category: "My new category",
+//         summary: "my new summary",
+//         url: "My new url"
+//     });
+//
+//     await book.save();
+// };
+
+export let addBook = async (req: Request, res: Response) => {
+    console.log('request body', req.body);
+    console.log('request', req);
+    let book = new BookModel({
+        title: "My new book 5",
+        author: "My new author",
+        category: "My new category",
+        summary: "my new summary",
+        url: "My new url"
     });
+
+    await book.save();
 };
