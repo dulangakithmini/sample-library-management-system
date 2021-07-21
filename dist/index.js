@@ -7,6 +7,11 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./routes/routes"));
 const dbConnect_1 = require("./db/dbConnect");
 const app = express_1.default();
+const bodyParser = require('body-parser');
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.get('/', (req, res) => {
     res.send('Testing...!');
 });

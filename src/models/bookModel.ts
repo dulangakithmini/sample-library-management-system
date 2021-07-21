@@ -8,9 +8,14 @@ export interface IBook {
     url: string;
 }
 
-const BookSchema = new Schema<IBook>({
+export const BookSchema = new Schema<IBook>({
     title: {type: String, required: true},
-    author: {type: String, required: true},
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'Author',
+        required: true,
+
+    },
     category: {type: String, required: true},
     summary: {type: String, required: true},
     url: {type: String, required: true},

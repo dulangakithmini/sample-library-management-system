@@ -24,11 +24,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", {value: true});
 const bookController = __importStar(require("../controllers/bookController"));
+const authorController = __importStar(require("../controllers/authorController"));
 function default_1(app) {
     app.get("/books", bookController.getAllBooks);
     app.get("/book/:id", bookController.getBook);
     app.post("/book", bookController.addBook);
     app.put("/book/:id", bookController.updateBook);
     app.delete("/book/:id", bookController.deleteBook);
+    app.get("/booksByTitle/:title", bookController.getBooksByTitle);
+    app.get("/booksByAuthor/:author", bookController.getBooksByAuthor);
+    app.get("/authors", authorController.getAllAuthors);
 }
 exports.default = default_1;
