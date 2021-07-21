@@ -21,7 +21,7 @@ export let createUser = (req: Request, res: Response) => {
                     user.save().then(result => {
                         res.send("User created");
                     }).catch(err => {
-                        console.log(err);
+                        res.send(err);
                     });
                 }
             });
