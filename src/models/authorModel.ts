@@ -5,7 +5,7 @@ export interface IAuthor {
     name: string;
 }
 
-export const AuthorSchema = new Schema<IAuthor>({
+const AuthorSchema = new Schema<IAuthor>({
     _id: {type: Schema.Types.ObjectId},
     name: {type: String, required: true},
 });

@@ -5,10 +5,11 @@ export interface IBook {
     author: string;
     category: string;
     summary: string;
-    url: string;
+    isBooked: boolean;
+    isBorrowed: boolean;
 }
 
-export const BookSchema = new Schema<IBook>({
+const BookSchema = new Schema<IBook>({
     title: {type: String, required: true},
     author: {
         type: Schema.Types.ObjectId,
@@ -18,7 +19,8 @@ export const BookSchema = new Schema<IBook>({
     },
     category: {type: String, required: true},
     summary: {type: String, required: true},
-    url: {type: String, required: true},
+    isBooked: {type: Boolean, default: false},
+    isBorrowed: {type: Boolean, default: false},
 }, {
     timestamps: true,
 });

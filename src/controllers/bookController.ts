@@ -3,8 +3,12 @@ import BookModel from "../models/bookModel";
 
 // get all books
 export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
-    let books = await BookModel.find().populate('author');
-    res.send(books);
+    try {
+        let books = await BookModel.find().populate('author');
+        res.send(books);
+    } catch {
+        console.error("Error!");
+    }
 }
 
 // get book by id
