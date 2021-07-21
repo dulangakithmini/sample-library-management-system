@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import UserModel from "../models/userModel";
 import * as bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 // add user
 export let createUser = (req: Request, res: Response) => {
@@ -40,7 +41,15 @@ export let login = (req: Request, res: Response) => {
                     return res.send('Authorization failed!');
                 }
                 if (result) {
-                    return res.send('Auth success!');
+                    const token = jwt.sign({
+                            email: user[0].email,
+                            userId: user[0]._id
+                        }, "secret",
+                        {
+                            expiresIn: "1h"
+                        }
+                    );
+                    return res.send(`Auth success! token: ${token}`);
                 }
                 return res.send('Authorization failed!');
             });
