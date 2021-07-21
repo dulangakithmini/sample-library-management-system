@@ -13,13 +13,12 @@ export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
 
 // get book by id
 export let getBook = async (req: Request, res: Response): Promise<void> => {
-    let book = await BookModel.findById(req.params.id, (err: any, book: any) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(book);
-        }
-    });
+    try {
+        let book = await BookModel.findById(req.params.id).populate('author');
+        res.send(book);
+    } catch {
+        console.error("Error!");
+    }
 }
 
 // delete book by id
