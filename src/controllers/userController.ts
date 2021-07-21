@@ -14,7 +14,7 @@ export let createUser = (req: Request, res: Response) => {
                     console.log(err);
                 } else {
                     let user = new UserModel({
-                        email: req.body.email,
+                            email: req.body.email,
                             password: hash,
                         }
                     );
@@ -28,6 +28,25 @@ export let createUser = (req: Request, res: Response) => {
         }
     })
 };
+
+// login
+export let login = (req: Request, res: Response) => {
+    UserModel.find({email: req.body.email}).then(user => {
+        if (user.length < 1) {
+            res.send('Authorization failed!');
+        } else {
+            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+                if (err) {
+                    return res.send('Authorization failed!');
+                }
+                if (result) {
+                    return res.send('Auth success!');
+                }
+                return res.send('Authorization failed!');
+            });
+        }
+    })
+}
 
 // delete user
 export let deleteUser = (req: Request, res: Response) => {
