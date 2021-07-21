@@ -1,7 +1,7 @@
 import {model, Schema} from "mongoose";
 
 export interface IAuthor {
-    _id: Number,
+    _id: Number;
     name: string;
 }
 
