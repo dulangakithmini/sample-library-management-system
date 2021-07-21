@@ -16,4 +16,5 @@ export default function (app: Express) {
     app.get("/authors", authorController.getAllAuthors);
 
     app.post("/user/signup", userController.createUser);
+    app.delete("/user/:id", userController.deleteUser);
 }

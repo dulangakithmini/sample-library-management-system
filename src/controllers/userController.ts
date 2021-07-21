@@ -28,3 +28,15 @@ export let createUser = (req: Request, res: Response) => {
         }
     })
 };
+
+// delete user
+export let deleteUser = (req: Request, res: Response) => {
+    let user = UserModel.deleteOne({_id: req.params.id}, (err: any) => {
+        console.log(req.params.id);
+        if (err) {
+            res.send(err);
+        } else {
+            res.send("Successfully deleted the user");
+        }
+    });
+};
