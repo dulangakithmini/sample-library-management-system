@@ -3,7 +3,7 @@ import UserModel from "../models/userModel";
 
 // add user
 export let createUser = (req: Request, res: Response) => {
-    let user = new UserModel(req.body);
+    let user = new UserModel();
 
     user.save((err: any) => {
         if (err) {
