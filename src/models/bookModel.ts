@@ -9,7 +9,7 @@ export interface IBook {
     isBorrowed: boolean;
 }
 
-const BookSchema = new Schema<IBook>({
+export const BookSchema = new Schema<IBook>({
     title: {type: String, required: true},
     author: {
         type: Schema.Types.ObjectId,

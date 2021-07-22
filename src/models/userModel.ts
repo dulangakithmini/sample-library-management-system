@@ -17,7 +17,11 @@ const UserSchema = new Schema<IUser>({
         type: String,
         default: "user",
         enum: ["admin", "user"],
-    }
+    },
+    books: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
+    }]
 });
 
 const UserModel = model<IUser>("User", UserSchema);

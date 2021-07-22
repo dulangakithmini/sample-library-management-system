@@ -17,6 +17,8 @@ export let createUser = (req: Request, res: Response) => {
                     let user = new UserModel({
                             email: req.body.email,
                             password: hash,
+                            role: req.body.role,
+                            books: req.body.books
                         }
                     );
                     user.save().then(result => {
