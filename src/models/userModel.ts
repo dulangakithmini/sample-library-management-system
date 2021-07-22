@@ -3,6 +3,7 @@ import {model, Schema} from "mongoose";
 export interface IUser {
     email: string;
     password: string;
+    role: string;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -15,7 +16,7 @@ const UserSchema = new Schema<IUser>({
     role: {
         type: String,
         default: "user",
-        enum: ["admin, user"],
+        enum: ["admin", "user"],
     }
 });
 
