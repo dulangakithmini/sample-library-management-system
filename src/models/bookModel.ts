@@ -23,7 +23,11 @@ const BookSchema = new Schema<IBook>({
     bookedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-    }
+    },
+    borrowedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
 }, {
     timestamps: true,
 });
