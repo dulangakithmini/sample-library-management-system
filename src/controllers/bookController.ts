@@ -4,7 +4,7 @@ import BookModel from "../models/bookModel";
 // get all books
 export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
     try {
-        let books = await BookModel.find().populate('author');
+        let books = await BookModel.find().populate('author').populate('bookedBy');
         res.send(books);
     } catch {
         console.error("Error!");
@@ -14,7 +14,7 @@ export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
 // get book by id
 export let getBook = async (req: Request, res: Response): Promise<void> => {
     try {
-        let book = await BookModel.findById(req.params.id).populate('author');
+        let book = await BookModel.findById(req.params.id).populate('author').populate('bookedBy', 'email');
         res.send(book);
     } catch {
         console.error("Error!");

@@ -15,12 +15,15 @@ const BookSchema = new Schema<IBook>({
         type: Schema.Types.ObjectId,
         ref: 'Author',
         required: true,
-
     },
     category: {type: String, required: true},
     summary: {type: String, required: true},
     isBooked: {type: Boolean, default: false},
     isBorrowed: {type: Boolean, default: false},
+    bookedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }
 }, {
     timestamps: true,
 });
