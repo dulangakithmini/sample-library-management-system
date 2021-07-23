@@ -1,6 +1,14 @@
 import {Request, Response} from "express";
 import BookModel from "../models/bookModel";
 
+interface bookBookingRequest extends Request {
+    readonly userData: {
+        userId: String,
+        email: String,
+        role: String
+    }
+}
+
 // get all books
 export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -77,6 +85,29 @@ export let getBooksByTitle = async (req: Request, res: Response): Promise<void> 
 export let getBooksByAuthor = async (req: Request, res: Response): Promise<void> => {
     let books = await BookModel.find({author: req.params.author});
     res.send(books);
+}
+
+// book books
+export let bookABook = async (req: any, res: Response): Promise<void> => {
+    try {
+        let book = await BookModel.findById(req.params.id);
+
+        if (!book) {
+            res.send("Error!");
+            return;
+        }
+
+        let isBooked = !book.isBooked;
+        if (isBooked) {
+            await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: req.userData.userId});
+            res.send('Booked Successfully!');
+        } else {
+            await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked});
+            res.send('Cancelled the booking!');
+        }
+    } catch (err) {
+        res.send(err);
+    }
 }
 
 // add book
