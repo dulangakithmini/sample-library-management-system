@@ -171,6 +171,24 @@ export let getBorrowedBooks = async (req: any, res: Response): Promise<void> => 
     }
 }
 
+// get booked and borrowed books - admin
+export let getBookedOrBorrowedBooks = async (req: any, res: Response): Promise<void> => {
+    try {
+        let books = await BookModel.find({
+            $or: [
+                {isBooked: true},
+                {isBorrowed: true}
+            ]
+        })
+            .populate('author')
+            .populate('bookedBy', 'email')
+            .populate('borrowedBy', 'email');
+        res.send(books);
+    } catch {
+        console.error("Error!");
+    }
+}
+
 // add book
 // values are assigned to fields separately
 // export let addBook = (req: Request, res: Response) => {
