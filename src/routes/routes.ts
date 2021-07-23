@@ -23,5 +23,5 @@ export default function (app: Express) {
 
 
     app.put("/books/book/:id", checkAuth, bookController.bookABook);
-
+    app.put("/books/borrow/:id", checkAuth, verifyRole, bookController.borrow);
 }

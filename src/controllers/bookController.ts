@@ -110,6 +110,34 @@ export let bookABook = async (req: any, res: Response): Promise<void> => {
     }
 }
 
+// borrow books
+export let borrow = async (req: any, res: Response): Promise<void> => {
+    try {
+        let book = await BookModel.findById(req.params.id);
+
+        if (!book) {
+            res.send("Error!");
+            return;
+        }
+
+        let isBorrowed = !book.isBorrowed;
+        if (isBorrowed) {
+            await BookModel.findByIdAndUpdate(req.params.id, {
+                isBorrowed: isBorrowed,
+                borrowedBy: req.userData.userId,
+                isBooked: false,
+                bookedBy: undefined
+            });
+            res.send('Borrowed the book!');
+        } else {
+            await BookModel.findByIdAndUpdate(req.params.id, {isBorrowed: isBorrowed, borrowedBy: undefined});
+            res.send('Returned the book');
+        }
+    } catch (err) {
+        res.send(err);
+    }
+}
+
 // add book
 // values are assigned to fields separately
 // export let addBook = (req: Request, res: Response) => {
