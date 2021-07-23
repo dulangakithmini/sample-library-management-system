@@ -7,6 +7,7 @@ export interface IBook {
     summary: string;
     isBooked: boolean;
     isBorrowed: boolean;
+    bookedBy: string;
 }
 
 export const BookSchema = new Schema<IBook>({

@@ -102,7 +102,7 @@ export let bookABook = async (req: any, res: Response): Promise<void> => {
             await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: req.userData.userId});
             res.send('Booked Successfully!');
         } else {
-            await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked});
+            await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: undefined});
             res.send('Cancelled the booking!');
         }
     } catch (err) {
