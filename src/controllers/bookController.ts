@@ -139,7 +139,8 @@ export let borrow = async (req: any, res: Response): Promise<void> => {
                 isBorrowed: isBorrowed,
                 borrowedBy: req.body.id,
                 isBooked: false,
-                bookedBy: undefined
+                bookedBy: undefined,
+                borrowedTime: new Date()
             });
             res.send(`User ${req.body.id} borrowed the book!`);
         } else {

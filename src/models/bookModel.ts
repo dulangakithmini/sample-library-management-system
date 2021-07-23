@@ -31,7 +31,7 @@ export const BookSchema = new Schema<IBook>({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    borrowedTime: Date,
+    borrowedTime: {type: Date},
 }, {
     timestamps: true,
 });
