@@ -90,6 +90,14 @@ export let getBooksByAuthor = async (req: Request, res: Response): Promise<void>
 // book books
 export let bookABook = async (req: any, res: Response): Promise<void> => {
     try {
+        // books that are booked or borrowed by the particular user
+        let books = await BookModel.find({
+            $or: [
+                {bookedBy: req.userData.userId},
+                {borrowedBy: req.userData.userId}
+            ]
+        });
+
         let book = await BookModel.findById(req.params.id);
 
         if (!book) {
@@ -99,8 +107,13 @@ export let bookABook = async (req: any, res: Response): Promise<void> => {
 
         let isBooked = !book.isBooked;
         if (isBooked) {
-            await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: req.userData.userId});
-            res.send('Booked Successfully!');
+            if (books.length < 2) {
+                await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: req.userData.userId});
+                res.send('Booked Successfully!');
+            } else {
+                res.send("Cannot get more than 2 books!");
+                return;
+            }
         } else {
             await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: undefined});
             res.send('Cancelled the booking!');
