@@ -26,4 +26,6 @@ export default function (app: Express) {
     app.put("/books/borrow/:id", checkAuth, verifyRole, bookController.borrow);
 
     app.get("/books", checkAuth, bookController.getAvailableBooks);
+
+    app.get("/bookedBooks", checkAuth, bookController.getBookedBooks);
 }

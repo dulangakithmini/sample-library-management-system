@@ -149,6 +149,17 @@ export let getAvailableBooks = async (req: Request, res: Response): Promise<void
     }
 }
 
+// get booked books - user
+export let getBookedBooks = async (req: any, res: Response): Promise<void> => {
+    try {
+        let books = await BookModel.find({bookedBy: req.userData.userId})
+            .populate('author')
+        res.send(books);
+    } catch {
+        console.error("Error!");
+    }
+}
+
 // add book
 // values are assigned to fields separately
 // export let addBook = (req: Request, res: Response) => {
