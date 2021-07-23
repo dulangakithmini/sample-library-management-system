@@ -9,6 +9,7 @@ export interface IBook {
     isBorrowed: boolean;
     bookedBy: string;
     borrowedBy: string;
+    borrowedTime: Date;
 }
 
 export const BookSchema = new Schema<IBook>({
@@ -30,6 +31,7 @@ export const BookSchema = new Schema<IBook>({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    borrowedTime: Date,
 }, {
     timestamps: true,
 });
