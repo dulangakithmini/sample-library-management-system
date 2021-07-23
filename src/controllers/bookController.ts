@@ -138,6 +138,17 @@ export let borrow = async (req: any, res: Response): Promise<void> => {
     }
 }
 
+// get available books (not booked & not borrowed)
+export let getAvailableBooks = async (req: Request, res: Response): Promise<void> => {
+    try {
+        let books = await BookModel.find({isBooked: false, isBorrowed: false})
+            .populate('author');
+        res.send(books);
+    } catch {
+        console.error("Error!");
+    }
+}
+
 // add book
 // values are assigned to fields separately
 // export let addBook = (req: Request, res: Response) => {

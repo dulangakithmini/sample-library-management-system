@@ -5,7 +5,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             resolve(value);
         });
     }
-
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) {
             try {
@@ -36,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", {value: true});
 exports.getAllAuthors = void 0;
 const authorModel_1 = __importDefault(require("../models/authorModel"));
-// get all books
+// get all authors
 let getAllAuthors = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let authors = yield authorModel_1.default.find((err, authors) => {
         if (err) {

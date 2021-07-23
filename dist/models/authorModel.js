@@ -1,13 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {value: true});
-exports.AuthorSchema = void 0;
 const mongoose_1 = require("mongoose");
-exports.AuthorSchema = new mongoose_1.Schema({
+const AuthorSchema = new mongoose_1.Schema({
+    _id: {type: mongoose_1.Schema.Types.ObjectId},
     name: {type: String, required: true},
-    // books: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: "Book",
-    // }],
 });
-const AuthorModel = mongoose_1.model("Author", exports.AuthorSchema);
+const AuthorModel = mongoose_1.model("Author", AuthorSchema);
 exports.default = AuthorModel;

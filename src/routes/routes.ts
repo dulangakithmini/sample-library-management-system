@@ -6,7 +6,7 @@ import checkAuth from "../middleware/check-auth";
 import verifyRole from "../middleware/auth-role";
 
 export default function (app: Express) {
-    app.get("/books", checkAuth, bookController.getAllBooks);
+    app.get("/allBooks", checkAuth, verifyRole, bookController.getAllBooks);
     app.get("/book/:id", checkAuth, bookController.getBook);
     app.post("/book", checkAuth, verifyRole, bookController.addBook);
     app.put("/book/:id", checkAuth, verifyRole, bookController.updateBook);
@@ -24,4 +24,6 @@ export default function (app: Express) {
 
     app.put("/books/book/:id", checkAuth, bookController.bookABook);
     app.put("/books/borrow/:id", checkAuth, verifyRole, bookController.borrow);
+
+    app.get("/books", checkAuth, bookController.getAvailableBooks);
 }
