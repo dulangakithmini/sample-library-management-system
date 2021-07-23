@@ -18,6 +18,8 @@ const UserSchema = new Schema<IUser>({
         default: "user",
         enum: ["admin", "user"],
     }
+}, {
+    timestamps: true,
 });
 
 const UserModel = model<IUser>("User", UserSchema);
