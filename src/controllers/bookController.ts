@@ -14,8 +14,8 @@ export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
     try {
         let books = await BookModel.find()
             .populate('author')
-            .populate('bookedBy')
-            .populate('borrowedBy');
+            .populate('bookedBy', 'email')
+            .populate('borrowedBy', 'email');
         res.send(books);
     } catch {
         console.error("Error!");
