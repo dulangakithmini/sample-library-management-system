@@ -124,14 +124,14 @@ export let borrow = async (req: any, res: Response): Promise<void> => {
         if (isBorrowed) {
             await BookModel.findByIdAndUpdate(req.params.id, {
                 isBorrowed: isBorrowed,
-                borrowedBy: req.userData.userId,
+                borrowedBy: req.body.id,
                 isBooked: false,
                 bookedBy: undefined
             });
-            res.send('Borrowed the book!');
+            res.send(`User ${req.body.id} borrowed the book!`);
         } else {
             await BookModel.findByIdAndUpdate(req.params.id, {isBorrowed: isBorrowed, borrowedBy: undefined});
-            res.send('Returned the book');
+            res.send(`User ${req.body.id} returned the book!`);
         }
     } catch (err) {
         res.send(err);
