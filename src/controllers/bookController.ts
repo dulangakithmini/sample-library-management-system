@@ -39,7 +39,7 @@ export let getBook = async (req: Request, res: Response): Promise<void> => {
 
 // delete book by id
 export let deleteBook = (req: Request, res: Response) => {
-    let book = BookModel.deleteOne({_id: req.params.id}, (err: any) => {
+    BookModel.deleteOne({_id: req.params.id}, (err: any) => {
         if (err) {
             res.send(err);
         } else {
@@ -50,8 +50,7 @@ export let deleteBook = (req: Request, res: Response) => {
 
 // update book
 export let updateBook = (req: Request, res: Response) => {
-    console.log(req.body);
-    let book = BookModel.findByIdAndUpdate(
+    BookModel.findByIdAndUpdate(
         req.params.id,
         req.body,
         (err: any, book: any) => {
