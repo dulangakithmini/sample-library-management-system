@@ -1,14 +1,12 @@
-import jwt from "jsonwebtoken";
 import UserModel from "../models/userModel";
 import {NextFunction, Response} from "express";
+import {decodeToken} from "../utils/decode-token";
 
 let limitRequests = async (req: any, res: Response, next: NextFunction) => {
     try {
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, "secret");
-        req.userData = decoded;
+        let userData = decodeToken(req);
 
-        let user = await UserModel.findById(req.userData.userId);
+        let user = await UserModel.findById(userData.userId);
         if (!user) {
             res.send("Error!");
             return;
@@ -17,14 +15,14 @@ let limitRequests = async (req: any, res: Response, next: NextFunction) => {
         let requestTimes = user.requests;
         let currentTime = new Date();
 
-        if (requestTimes.length ! < 10) {
+        if (requestTimes.length > 9) {
             let start_time = requestTimes[0];
 
             if (currentTime.getTime() - start_time.getTime() > 60000) {
                 requestTimes.shift();
                 requestTimes.push(currentTime);
 
-                await UserModel.findByIdAndUpdate(req.userData.userId, {requests: requestTimes});
+                await UserModel.findByIdAndUpdate(userData.userId, {requests: requestTimes});
 
                 next();
             } else {
@@ -33,7 +31,7 @@ let limitRequests = async (req: any, res: Response, next: NextFunction) => {
         } else {
             requestTimes.push(currentTime);
 
-            await UserModel.findByIdAndUpdate(req.userData.userId, {requests: requestTimes});
+            await UserModel.findByIdAndUpdate(userData.userId, {requests: requestTimes});
 
             next();
         }
