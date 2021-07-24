@@ -1,11 +1,9 @@
-import jwt from "jsonwebtoken";
+import {decodeToken} from "../utils/decode-token";
 
 let verifyRole = (req: any, res: any, next: any) => {
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(token, "secret");
-    req.userData = decoded;
+    let userData = decodeToken(req);
 
-    if (req.userData.role !== "admin") {
+    if (userData.role !== "admin") {
         return res.send('Not allowed');
     }
     next();
