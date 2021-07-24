@@ -34,7 +34,7 @@ export default function (app: Express) {
 
     app.get("/bookedOrBorrowed", checkAuth, verifyRole, bookController.getBookedOrBorrowedBooks);
 
-    app.post("/upload", upload.single('bookList'), bookController.uploadBooks);
-    app.post("/bookList", bookController.addBookList);
+    app.post("/upload", checkAuth, verifyRole, upload.single('bookList'), bookController.uploadBooks);
+    app.post("/bookList", checkAuth, verifyRole, bookController.addBookList);
 
 }
