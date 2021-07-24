@@ -4,6 +4,7 @@ export interface IUser {
     email: string;
     password: string;
     role: string;
+    requests: [Date];
 }
 
 const UserSchema = new Schema<IUser>({
@@ -17,7 +18,8 @@ const UserSchema = new Schema<IUser>({
         type: String,
         default: "user",
         enum: ["admin", "user"],
-    }
+    },
+    requests: [Date],
 }, {
     timestamps: true,
 });
