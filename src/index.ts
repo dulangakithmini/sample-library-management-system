@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express';
 import routes from "./routes/routes";
 import {DbConnect} from "./db/dbConnect";
+import checkBookReturns from './schedule-jobs/check-returns-schedule'
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -18,4 +19,7 @@ app.listen(3000, () => {
 
     DbConnect.initialize().catch(console.error);
     routes(app);
+
+    checkBookReturns;
+
 });
