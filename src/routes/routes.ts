@@ -1,14 +1,11 @@
 import {Express} from "express";
 import * as bookController from "../controllers/bookController";
-import {storage} from "../controllers/bookController";
+import {upload} from "../utils/storage";
 import * as authorController from "../controllers/authorController";
 import * as userController from "../controllers/userController";
 import checkAuth from "../middleware/check-auth";
 import verifyRole from "../middleware/auth-role";
 import limitRequests from "../middleware/api-throttle";
-import multer from 'multer';
-
-const upload = multer({storage: storage});
 
 export default function (app: Express) {
     app.get("/allBooks", checkAuth, verifyRole, bookController.getAllBooks);

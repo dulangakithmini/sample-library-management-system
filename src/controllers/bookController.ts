@@ -1,6 +1,5 @@
 import {Request, Response} from "express";
 import BookModel from "../models/bookModel";
-import multer from "multer";
 
 const bookList = require('../../uploads/books.json');
 
@@ -11,15 +10,6 @@ interface bookBookingRequest extends Request {
         role: String
     }
 }
-
-export const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
 
 // get all books
 export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
@@ -220,7 +210,7 @@ export let uploadBooks = async (req: any, res: Response) => {
     res.send('Uploaded successfully.')
 };
 
-// add books from the json file
+// add books from the uploaded json file
 export let addBookList = async (req: any, res: Response) => {
     await BookModel.insertMany(bookList);
     res.send('Book list added.')
