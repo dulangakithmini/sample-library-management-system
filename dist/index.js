@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {value: true});
 const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./routes/routes"));
 const dbConnect_1 = require("./db/dbConnect");
+const check_returns_schedule_1 = __importDefault(require("./schedule-jobs/check-returns-schedule"));
 const app = express_1.default();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // to support JSON-encoded bodies
@@ -19,4 +20,5 @@ app.listen(3000, () => {
     console.log('The application is listening on port 3000!');
     dbConnect_1.DbConnect.initialize().catch(console.error);
     routes_1.default(app);
+    check_returns_schedule_1.default;
 });
