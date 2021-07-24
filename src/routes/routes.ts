@@ -6,29 +6,30 @@ import * as userController from "../controllers/userController";
 import checkAuth from "../middleware/check-auth";
 import verifyRole from "../middleware/auth-role";
 import limitRequests from "../middleware/api-throttle";
+import checkStatus from "../middleware/check-user-status";
 
 export default function (app: Express) {
     // book routes
     app.get("/allBooks", checkAuth, verifyRole, bookController.getAllBooks);
-    app.get("/book/:id", checkAuth, limitRequests, bookController.getBook);
+    app.get("/book/:id", checkAuth, limitRequests, checkStatus, bookController.getBook);
     app.post("/book", checkAuth, verifyRole, bookController.addBook);
     app.put("/book/:id", checkAuth, verifyRole, bookController.updateBook);
     app.delete("/book/:id", checkAuth, verifyRole, bookController.deleteBook);
 
     // book filter routes
-    app.get("/booksByTitle/:title", checkAuth, limitRequests, bookController.getBooksByTitle);
-    app.get("/booksByAuthor/:author", checkAuth, limitRequests, bookController.getBooksByAuthor);
+    app.get("/booksByTitle/:title", checkAuth, limitRequests, checkStatus, bookController.getBooksByTitle);
+    app.get("/booksByAuthor/:author", checkAuth, limitRequests, checkStatus, bookController.getBooksByAuthor);
 
     // book borrow and book
-    app.put("/books/book/:id", checkAuth, limitRequests, bookController.bookABook);
+    app.put("/books/book/:id", checkAuth, limitRequests, checkStatus, bookController.bookABook);
     app.put("/books/borrow/:id", checkAuth, verifyRole, bookController.borrow);
 
     // get available books
-    app.get("/books", checkAuth, limitRequests, bookController.getAvailableBooks);
+    app.get("/books", checkAuth, limitRequests, checkStatus, bookController.getAvailableBooks);
 
     // get booked and borrowed books - user
-    app.get("/bookedBooks", checkAuth, limitRequests, bookController.getBookedBooks);
-    app.get("/borrowedBooks", checkAuth, limitRequests, bookController.getBorrowedBooks);
+    app.get("/bookedBooks", checkAuth, limitRequests, checkStatus, bookController.getBookedBooks);
+    app.get("/borrowedBooks", checkAuth, limitRequests, checkStatus, bookController.getBorrowedBooks);
 
     // get all booked and borrowed books - admin
     app.get("/bookedOrBorrowed", checkAuth, verifyRole, bookController.getBookedOrBorrowedBooks);
