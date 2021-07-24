@@ -203,6 +203,11 @@ export let getBookedOrBorrowedBooks = async (req: any, res: Response): Promise<v
     }
 }
 
+// upload books
+export let uploadBooks = (req: Request, res: Response) => {
+    res.send('Uploaded successfully.')
+};
+
 // add book
 // values are assigned to fields separately
 // export let addBook = (req: Request, res: Response) => {
