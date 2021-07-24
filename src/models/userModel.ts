@@ -5,6 +5,7 @@ export interface IUser {
     password: string;
     role: string;
     requests: [Date];
+    isActive: boolean;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -20,6 +21,7 @@ const UserSchema = new Schema<IUser>({
         enum: ["admin", "user"],
     },
     requests: [Date],
+    isActive: {type: Boolean, default: true},
 }, {
     timestamps: true,
 });
