@@ -1,12 +1,12 @@
 import {model, Schema} from "mongoose";
 
 export interface IAuthor {
-    _id: Number;
+    // _id: Number;
     name: string;
 }
 
 const AuthorSchema = new Schema<IAuthor>({
-    _id: {type: Schema.Types.ObjectId},
+    // _id: {type: Schema.Types.ObjectId},
     name: {type: String, required: true},
 });
 
