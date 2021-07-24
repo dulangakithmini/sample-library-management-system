@@ -1,10 +1,8 @@
-import jwt from 'jsonwebtoken';
+import {decodeToken} from "../utils/decode-token";
 
 let verifyToken = (req: any, res: any, next: any) => {
     try {
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, "secret");
-        req.userData = decoded;
+        decodeToken(req);
         next();
     } catch (error) {
         res.send('Auth failed');
