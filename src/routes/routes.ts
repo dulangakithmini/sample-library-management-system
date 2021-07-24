@@ -1,5 +1,6 @@
 import {Express} from "express";
 import * as bookController from "../controllers/bookController";
+import {storage} from "../controllers/bookController";
 import * as authorController from "../controllers/authorController";
 import * as userController from "../controllers/userController";
 import checkAuth from "../middleware/check-auth";
@@ -7,14 +8,6 @@ import verifyRole from "../middleware/auth-role";
 import limitRequests from "../middleware/api-throttle";
 import multer from 'multer';
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
-    }
-});
 const upload = multer({storage: storage});
 
 export default function (app: Express) {
@@ -45,5 +38,6 @@ export default function (app: Express) {
     app.get("/bookedOrBorrowed", checkAuth, verifyRole, bookController.getBookedOrBorrowedBooks);
 
     app.post("/upload", upload.single('bookList'), bookController.uploadBooks);
+    app.post("/bookList", bookController.addBookList);
 
 }

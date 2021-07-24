@@ -1,5 +1,8 @@
 import {Request, Response} from "express";
 import BookModel from "../models/bookModel";
+import multer from "multer";
+
+const bookList = require('../../uploads/books.json');
 
 interface bookBookingRequest extends Request {
     readonly userData: {
@@ -8,6 +11,15 @@ interface bookBookingRequest extends Request {
         role: String
     }
 }
+
+export const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
 
 // get all books
 export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
@@ -203,29 +215,13 @@ export let getBookedOrBorrowedBooks = async (req: any, res: Response): Promise<v
     }
 }
 
-// upload books
-export let uploadBooks = (req: Request, res: Response) => {
+// upload books file
+export let uploadBooks = async (req: any, res: Response) => {
     res.send('Uploaded successfully.')
 };
 
-// add book
-// values are assigned to fields separately
-// export let addBook = (req: Request, res: Response) => {
-//     console.log('request body', req.body);
-//     // console.log('request', req);
-//     const book = new BookModel({
-//         "title": req.body['title'],
-//         "author": req.body['author'],
-//         "category": req.body['category'],
-//         "summary": req.body['summary'],
-//         "url": req.body['url']
-//     });
-//
-//     book.save((err: any) => {
-//         if (err) {
-//             res.send(err);
-//         } else {
-//             res.send(book);
-//         }
-//     });
-// };
+// add books from the json file
+export let addBookList = async (req: any, res: Response) => {
+    await BookModel.insertMany(bookList);
+    res.send('Book list added.')
+};
