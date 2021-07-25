@@ -39,7 +39,7 @@ Parameters | Data Type | Parameter Type | Comments
 -----------|-----------|----------------|---------
 id | Object ID | Body parameter | required
 
-### 5. Get all the books - ##### Used by the admin.
+### 5. Get all the books - Used by the admin.
 
 - HTTP method - GET
 - URL - /allBooks
