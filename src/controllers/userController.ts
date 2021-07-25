@@ -71,3 +71,9 @@ export let deleteUser = (req: Request, res: Response) => {
         }
     });
 };
+
+// activate user
+export let activateUser = async (req: Request, res: Response) => {
+    await UserModel.findByIdAndUpdate(req.body.id, {isActive: true});
+    res.send('User is activated!');
+};

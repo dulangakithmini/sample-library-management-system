@@ -43,6 +43,7 @@ export default function (app: Express) {
     app.post("/user/signup", userController.createUser);
     app.delete("/user/:id", checkAuth, verifyRole, userController.deleteUser);
     app.post("/user/login", userController.login);
+    app.put("/user/activate", userController.activateUser);
 
 
     // author routes
