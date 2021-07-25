@@ -1,6 +1,6 @@
 # **API Documentation**
 
-1. Create a user.
+1. ### **Create a user.**
 
 - HTTP method - POST
 - URL - /user/signup
@@ -207,4 +207,4 @@ name | String | Body parameter |
 
 Parameters | Data Type | Parameter Type | Comments
 -----------|-----------|----------------|---------
-name | String | URL parameter |
+name | String | URL parameter | required
