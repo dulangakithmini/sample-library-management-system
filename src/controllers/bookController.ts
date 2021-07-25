@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import BookModel from "../models/bookModel";
+import UserModel from "../models/userModel";
 
 const bookList = require('../../uploads/books.json');
 
@@ -137,31 +138,49 @@ export let bookABook = async (req: any, res: Response): Promise<void> => {
 // borrow books
 export let borrow = async (req: any, res: Response): Promise<void> => {
     try {
-        let book = await BookModel.findById(req.params.id);
-
-        if (!book) {
-            res.send("Error!");
+        // find the user and check whether the user is active
+        const user = await UserModel.findById(req.body.id);
+        if (!user) {
+            res.send("Not a registered user!");
             return;
         }
 
-        let isBorrowed = !book.isBorrowed;
-        if (isBorrowed) {
-            if (book.bookedBy != req.body.id) {
-                res.send('Cannot borrow. Already booked by another user!');
+        if (user.isActive) {
+            // find the book
+            let book = await BookModel.findById(req.params.id);
+
+            if (!book) {
+                res.send("Error!");
+                return;
+            }
+
+            let isBorrowed = !book.isBorrowed;
+            if (isBorrowed) {
+                // check whether the book is booked by another user
+                if (book.bookedBy != req.body.id) {
+                    res.send('Cannot borrow. Already booked by another user!');
+                } else {
+                    await BookModel.findByIdAndUpdate(req.params.id, {
+                        isBorrowed: isBorrowed,
+                        borrowedBy: req.body.id,
+                        isBooked: false,
+                        bookedBy: undefined,
+                        borrowedTime: new Date()
+                    });
+                    res.send(`User ${req.body.id} borrowed the book!`);
+                }
+
             } else {
                 await BookModel.findByIdAndUpdate(req.params.id, {
                     isBorrowed: isBorrowed,
-                    borrowedBy: req.body.id,
-                    isBooked: false,
-                    bookedBy: undefined,
-                    borrowedTime: new Date()
+                    borrowedBy: undefined,
+                    borrowedTime: undefined
                 });
-                res.send(`User ${req.body.id} borrowed the book!`);
+                res.send(`User ${req.body.id} returned the book!`);
             }
-
         } else {
-            await BookModel.findByIdAndUpdate(req.params.id, {isBorrowed: isBorrowed, borrowedBy: undefined});
-            res.send(`User ${req.body.id} returned the book!`);
+            res.send('User is suspended. Cannot borrow books!');
+            return;
         }
     } catch (err) {
         res.send(err);
