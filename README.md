@@ -99,11 +99,11 @@ title | String | URL parameter | required
 ### 11. Get books by author.
 
 - HTTP method - GET
-- URL - /booksByAuthor/:author
+- URL - /booksByAuthor/:id
 
 Parameters | Data Type | Parameter Type | Comments
 -----------|-----------|----------------|---------
-author | String | URL parameter | required
+id | Object ID | URL parameter | required
 
 ### 12. Book a book.
 
