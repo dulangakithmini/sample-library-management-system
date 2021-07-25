@@ -11,7 +11,7 @@ email | String | Body parameter | required
 password | String | Body parameter | required
 role | String | Body parameter
 
-2. ### User login.
+### 2. User login.
 
 - HTTP method - POST
 - URL - /user/login
