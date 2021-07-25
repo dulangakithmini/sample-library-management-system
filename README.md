@@ -1,8 +1,7 @@
 # **API Documentation**
 
 1.
-    - HTTP method - POST
-
+- HTTP method - POST
 - URL - /user/signup
 - Description - Create a user.
 
@@ -13,7 +12,6 @@ password | String | required
 role | String |
 
 2.
-
 - HTTP method - GET
 - URL - /allBooks
 - Description - Get all the books. Used by the admin.
