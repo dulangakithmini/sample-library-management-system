@@ -28,6 +28,7 @@ export let getAllBooks = async (req: Request, res: Response): Promise<void> => {
 export let getBook = async (req: Request, res: Response): Promise<void> => {
     try {
         let book = await BookModel.findById(req.params.id)
+            .select('_id title author category summary')
             .populate('author')
             .populate('bookedBy', 'email')
             .populate('borrowedBy', 'email');
@@ -78,13 +79,22 @@ export let addBook = (req: Request, res: Response) => {
 
 //filter by book title
 export let getBooksByTitle = async (req: Request, res: Response): Promise<void> => {
-    let books = await BookModel.find({title: req.params.title});
+    let books = await BookModel.find({
+        title: req.params.title,
+        isBooked: false,
+        isBorrowed: false
+    })
+        .select('_id title author category summary');
     res.send(books);
 }
 
 // filter by author
 export let getBooksByAuthor = async (req: Request, res: Response): Promise<void> => {
-    let books = await BookModel.find({author: req.params.author});
+    let books = await BookModel.find({
+        author: req.params.author, isBooked: false,
+        isBorrowed: false
+    })
+        .select('_id title author category summary');
     res.send(books);
 }
 
@@ -157,6 +167,7 @@ export let borrow = async (req: any, res: Response): Promise<void> => {
 export let getAvailableBooks = async (req: Request, res: Response): Promise<void> => {
     try {
         let books = await BookModel.find({isBooked: false, isBorrowed: false})
+            .select('_id title author category summary')
             .populate('author');
         res.send(books);
     } catch {
@@ -168,6 +179,7 @@ export let getAvailableBooks = async (req: Request, res: Response): Promise<void
 export let getBookedBooks = async (req: any, res: Response): Promise<void> => {
     try {
         let books = await BookModel.find({bookedBy: req.userData.userId})
+            .select('_id title author category summary')
             .populate('author')
         res.send(books);
     } catch {
@@ -179,6 +191,7 @@ export let getBookedBooks = async (req: any, res: Response): Promise<void> => {
 export let getBorrowedBooks = async (req: any, res: Response): Promise<void> => {
     try {
         let books = await BookModel.find({borrowedBy: req.userData.userId})
+            .select('_id title author category summary')
             .populate('author')
         res.send(books);
     } catch {
