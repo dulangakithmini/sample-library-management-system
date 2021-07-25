@@ -33,7 +33,7 @@ export const BookSchema = new Schema<IBook>({
         ref: 'User',
     },
     borrowedTime: {type: Date},
-    overDue: {type: Boolean}
+    overDue: {type: Boolean, default: false}
 }, {
     timestamps: true,
 });
