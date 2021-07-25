@@ -157,7 +157,7 @@ export let borrow = async (req: any, res: Response): Promise<void> => {
             let isBorrowed = !book.isBorrowed;
             if (isBorrowed) {
                 // check whether the book is booked by another user
-                if (book.bookedBy != req.body.id) {
+                if (book.bookedBy != req.body.id && book.isBooked) {
                     res.send('Cannot borrow. Already booked by another user!');
                 } else {
                     await BookModel.findByIdAndUpdate(req.params.id, {
