@@ -1,9 +1,9 @@
 # **API Documentation**
 
 1.
+    - HTTP method - POST
 
-- HTTP method - POST
-- Url - /user/signup
+- URL - /user/signup
 - Description - Create a user.
 
 Parameters | Data Type | Comments
@@ -15,7 +15,7 @@ role | String |
 2.
 
 - HTTP method - GET
-- Url - /allBooks
+- URL - /allBooks
 - Description - Get all the books. Used by the admin.
 
 Parameters | Data Type | Comments
