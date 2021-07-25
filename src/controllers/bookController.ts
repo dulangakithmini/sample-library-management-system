@@ -216,7 +216,7 @@ export let getBookedBooks = async (req: any, res: Response): Promise<void> => {
 export let getBorrowedBooks = async (req: any, res: Response): Promise<void> => {
     try {
         let books = await BookModel.find({borrowedBy: req.userData.userId})
-            .select('_id title author category summary')
+            .select('_id title author category summary borrowedTime overDue')
             .populate('author')
         res.send(books);
     } catch {
