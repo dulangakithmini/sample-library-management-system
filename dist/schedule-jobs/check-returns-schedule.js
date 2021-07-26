@@ -5,7 +5,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             resolve(value);
         });
     }
-
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) {
             try {
@@ -38,28 +37,20 @@ const node_schedule_1 = __importDefault(require("node-schedule"));
 const bookModel_1 = __importDefault(require("../models/bookModel"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 exports.default = node_schedule_1.default.scheduleJob('*/2 * * * * *', () => __awaiter(void 0, void 0, void 0, function* () {
-    const books = yield bookModel_1.default.find({isBorrowed: true});
-    if (books.length > 0) {
-        books.forEach((book) => {
-            if (new Date().getTime() - book.borrowedTime.getTime() > 604800000) {
-                console.log(`User ${book.borrowedBy} has been suspended!`);
-                let user = userModel_1.default.find({id: book.borrowedBy});
-                // let isActive = !user.isActive;
-                //
-                // let isBooked = !book.isBooked;
-                // if (isBooked) {
-                //     if (books.length < 2) {
-                //         await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: req.userData.userId});
-                //         res.send('Booked Successfully!');
-                //     } else {
-                //         res.send("Cannot get more than 2 books!");
-                //         return;
-                //     }
-                // } else {
-                //     await BookModel.findByIdAndUpdate(req.params.id, {isBooked: isBooked, bookedBy: undefined});
-                //     res.send('Cancelled the booking!');
-                // }
-            }
-        });
+    // 0 8/12 */1 * *
+    try {
+        const books = yield bookModel_1.default.find({isBorrowed: true, overDue: false});
+        if (books.length > 0) {
+            console.log(books);
+            books.map((book) => __awaiter(void 0, void 0, void 0, function* () {
+                if (new Date().getTime() - book.borrowedTime.getTime() > 60000) {
+                    console.log(`User ${book.borrowedBy} has been suspended!`);
+                    yield book.updateOne({overDue: true});
+                    yield userModel_1.default.findByIdAndUpdate(book.borrowedBy, {isActive: false});
+                }
+            }));
+        }
+    } catch (error) {
+        console.log(error);
     }
 }));

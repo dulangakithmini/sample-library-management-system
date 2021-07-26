@@ -5,7 +5,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             resolve(value);
         });
     }
-
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) {
             try {
@@ -36,6 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", {value: true});
 exports.addBookList = exports.uploadBooks = exports.getBookedOrBorrowedBooks = exports.getBorrowedBooks = exports.getBookedBooks = exports.getAvailableBooks = exports.borrow = exports.bookABook = exports.getBooksByAuthor = exports.getBooksByTitle = exports.addBook = exports.updateBook = exports.deleteBook = exports.getBook = exports.getAllBooks = void 0;
 const bookModel_1 = __importDefault(require("../models/bookModel"));
+const userModel_1 = __importDefault(require("../models/userModel"));
 const bookList = require('../../uploads/books.json');
 // get all books
 let getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -54,7 +54,8 @@ exports.getAllBooks = getAllBooks;
 let getBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let book = yield bookModel_1.default.findById(req.params.id)
-            .populate('author')
+            .select('_id title author category summary')
+            .populate('author', 'name')
             .populate('bookedBy', 'email')
             .populate('borrowedBy', 'email');
         res.send(book);
@@ -99,13 +100,22 @@ let addBook = (req, res) => {
 exports.addBook = addBook;
 //filter by book title
 let getBooksByTitle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let books = yield bookModel_1.default.find({title: req.params.title});
+    let books = yield bookModel_1.default.find({
+        title: req.params.title,
+        isBooked: false,
+        isBorrowed: false
+    })
+        .select('_id title author category summary');
     res.send(books);
 });
 exports.getBooksByTitle = getBooksByTitle;
 // filter by author
 let getBooksByAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let books = yield bookModel_1.default.find({author: req.params.author});
+    let books = yield bookModel_1.default.find({
+        author: req.params.id, isBooked: false,
+        isBorrowed: false
+    })
+        .select('_id title author category summary');
     res.send(books);
 });
 exports.getBooksByAuthor = getBooksByAuthor;
@@ -148,24 +158,46 @@ exports.bookABook = bookABook;
 // borrow books
 let borrow = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let book = yield bookModel_1.default.findById(req.params.id);
-        if (!book) {
-            res.send("Error!");
+        // find the user and check whether the user is active
+        const user = yield userModel_1.default.findById(req.body.id);
+        if (!user) {
+            res.send("Not a registered user!");
             return;
         }
-        let isBorrowed = !book.isBorrowed;
-        if (isBorrowed) {
-            yield bookModel_1.default.findByIdAndUpdate(req.params.id, {
-                isBorrowed: isBorrowed,
-                borrowedBy: req.body.id,
-                isBooked: false,
-                bookedBy: undefined,
-                borrowedTime: new Date()
-            });
-            res.send(`User ${req.body.id} borrowed the book!`);
+        if (user.isActive) {
+            // find the book
+            let book = yield bookModel_1.default.findById(req.params.id);
+            if (!book) {
+                res.send("Error!");
+                return;
+            }
+            let isBorrowed = !book.isBorrowed;
+            if (isBorrowed) {
+                // check whether the book is booked by another user
+                if (book.bookedBy != req.body.id && book.isBooked) {
+                    res.send('Cannot borrow. Already booked by another user!');
+                } else {
+                    yield bookModel_1.default.findByIdAndUpdate(req.params.id, {
+                        isBorrowed: isBorrowed,
+                        borrowedBy: req.body.id,
+                        isBooked: false,
+                        bookedBy: undefined,
+                        borrowedTime: new Date()
+                    });
+                    res.send(`User ${req.body.id} borrowed the book!`);
+                }
+            } else {
+                yield bookModel_1.default.findByIdAndUpdate(req.params.id, {
+                    isBorrowed: isBorrowed,
+                    borrowedBy: undefined,
+                    borrowedTime: undefined,
+                    overDue: false
+                });
+                res.send(`User ${req.body.id} returned the book!`);
+            }
         } else {
-            yield bookModel_1.default.findByIdAndUpdate(req.params.id, {isBorrowed: isBorrowed, borrowedBy: undefined});
-            res.send(`User ${req.body.id} returned the book!`);
+            res.send('User is suspended. Cannot borrow books!');
+            return;
         }
     } catch (err) {
         res.send(err);
@@ -176,6 +208,7 @@ exports.borrow = borrow;
 let getAvailableBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let books = yield bookModel_1.default.find({isBooked: false, isBorrowed: false})
+            .select('_id title author category summary')
             .populate('author');
         res.send(books);
     } catch (_c) {
@@ -187,6 +220,7 @@ exports.getAvailableBooks = getAvailableBooks;
 let getBookedBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let books = yield bookModel_1.default.find({bookedBy: req.userData.userId})
+            .select('_id title author category summary')
             .populate('author');
         res.send(books);
     } catch (_d) {
@@ -198,6 +232,7 @@ exports.getBookedBooks = getBookedBooks;
 let getBorrowedBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let books = yield bookModel_1.default.find({borrowedBy: req.userData.userId})
+            .select('_id title author category summary borrowedTime overDue')
             .populate('author');
         res.send(books);
     } catch (_e) {

@@ -30,7 +30,7 @@ export let getBook = async (req: Request, res: Response): Promise<void> => {
     try {
         let book = await BookModel.findById(req.params.id)
             .select('_id title author category summary')
-            .populate('author')
+            .populate('author', 'name')
             .populate('bookedBy', 'email')
             .populate('borrowedBy', 'email');
         res.send(book);
@@ -92,7 +92,7 @@ export let getBooksByTitle = async (req: Request, res: Response): Promise<void> 
 // filter by author
 export let getBooksByAuthor = async (req: Request, res: Response): Promise<void> => {
     let books = await BookModel.find({
-        author: req.params.author, isBooked: false,
+        author: req.params.id, isBooked: false,
         isBorrowed: false
     })
         .select('_id title author category summary');

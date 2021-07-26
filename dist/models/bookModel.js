@@ -22,6 +22,7 @@ exports.BookSchema = new mongoose_1.Schema({
         ref: 'User',
     },
     borrowedTime: {type: Date},
+    overDue: {type: Boolean, default: false}
 }, {
     timestamps: true,
 });

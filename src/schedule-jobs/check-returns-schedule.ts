@@ -3,7 +3,7 @@ import BookModel from "../models/bookModel";
 import UserModel from "../models/userModel";
 
 export default schedule.scheduleJob('*/2 * * * * *', async () => {
-    // 0 */12 * * *
+    // 0 8/12 */1 * *
     try {
         const books = await BookModel.find({isBorrowed: true, overDue: false});
 

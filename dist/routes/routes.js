@@ -34,7 +34,6 @@ const check_auth_1 = __importDefault(require("../middleware/check-auth"));
 const auth_role_1 = __importDefault(require("../middleware/auth-role"));
 const api_throttle_1 = __importDefault(require("../middleware/api-throttle"));
 const check_user_status_1 = __importDefault(require("../middleware/check-user-status"));
-
 function default_1(app) {
     // book routes
     app.get("/allBooks", check_auth_1.default, auth_role_1.default, bookController.getAllBooks);
@@ -44,7 +43,7 @@ function default_1(app) {
     app.delete("/book/:id", check_auth_1.default, auth_role_1.default, bookController.deleteBook);
     // book filter routes
     app.get("/booksByTitle/:title", check_auth_1.default, api_throttle_1.default, check_user_status_1.default, bookController.getBooksByTitle);
-    app.get("/booksByAuthor/:author", check_auth_1.default, api_throttle_1.default, check_user_status_1.default, bookController.getBooksByAuthor);
+    app.get("/booksByAuthor/:id", check_auth_1.default, api_throttle_1.default, check_user_status_1.default, bookController.getBooksByAuthor);
     // book borrow and book
     app.put("/books/book/:id", check_auth_1.default, api_throttle_1.default, check_user_status_1.default, bookController.bookABook);
     app.put("/books/borrow/:id", check_auth_1.default, auth_role_1.default, bookController.borrow);
@@ -62,6 +61,7 @@ function default_1(app) {
     app.post("/user/signup", userController.createUser);
     app.delete("/user/:id", check_auth_1.default, auth_role_1.default, userController.deleteUser);
     app.post("/user/login", userController.login);
+    app.put("/user/activate", userController.activateUser);
     // author routes
     app.get("/authors", check_auth_1.default, auth_role_1.default, authorController.getAllAuthors);
     app.get("/author/:id", check_auth_1.default, auth_role_1.default, authorController.getAuthor);

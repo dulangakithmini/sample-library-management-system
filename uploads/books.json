@@ -1,26 +1,14 @@
 [
   {
-    "title": "Book 5",
-    "author": "60f7e6302f94b28cf781a791",
-    "category": "A",
-    "summary": "q"
-  },
-  {
-    "title": "Book 6",
-    "author": "60f7e6302f94b28cf781a791",
-    "category": "A",
-    "summary": "q"
-  },
-  {
     "title": "Book 7",
-    "author": "60f7e6302f94b28cf781a791",
-    "category": "A",
-    "summary": "q"
+    "author": "60fd848fd17f501f1cd19ace",
+    "category": "Category 7",
+    "summary": "Summary 7"
   },
-{
+  {
     "title": "Book 8",
-    "author": "60f7e6302f94b28cf781a791",
-    "category": "A",
-    "summary": "q"
+    "author": "60fd8494d17f501f1cd19ad0",
+    "category": "Category 8",
+    "summary": "Summary 8"
   }
 ]

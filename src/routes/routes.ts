@@ -18,7 +18,7 @@ export default function (app: Express) {
 
     // book filter routes
     app.get("/booksByTitle/:title", checkAuth, limitRequests, checkStatus, bookController.getBooksByTitle);
-    app.get("/booksByAuthor/:author", checkAuth, limitRequests, checkStatus, bookController.getBooksByAuthor);
+    app.get("/booksByAuthor/:id", checkAuth, limitRequests, checkStatus, bookController.getBooksByAuthor);
 
     // book borrow and book
     app.put("/books/book/:id", checkAuth, limitRequests, checkStatus, bookController.bookABook);
